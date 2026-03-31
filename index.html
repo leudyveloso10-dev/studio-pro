@@ -695,12 +695,14 @@ Gere 3 versões completas e diferentes.`;
 
     const controller = new AbortController();
 const timeout = setTimeout(() => controller.abort(), 25000);
-const res=await fetch('/api/generate',{signal:AbortSignal.timeout(28000),signal: controller.signal,
+const res=await fetch('/api/generate',{,signal: controller.signal,
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify(body)
     });
-    const data=await res.json();clearTimeout(timeout);
+    const text=await res.text();
+let data;
+try{data=JSON.parse(text);}catch(e){throw new Error('Servidor retornou: '+text.substring(0,80));}clearTimeout(timeout);
 
     if(data.error){
       document.getElementById('leg-txt').innerHTML=`<div class="err">❌ ${data.error}</div>`;
