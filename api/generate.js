@@ -25,8 +25,14 @@ export default async function handler(req, res) {
     if (!response.ok) return res.status(response.status).json({ error: data.error?.message || 'Erro Gemini' });
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
     const clean = text.replace(/```json/g, '').replace(/```/g, '').trim();
-    try { return res.status(200).json(JSON.parse(clean)); }
-    catch { return res.status(200).json({ raw: text }); }
+   try {
+  const parsed = JSON.parse(clean);
+  if (parsed.versoes) return res.status(200).json(parsed);
+  if (parsed.versões) return res.status(200).json({ versoes: parsed.versões });
+  return res.status(200).json({ versoes: [parsed] });
+} catch {
+  return res.status(200).json({ raw: text, versoes: [] });
+}
   } catch (err) { return res.status(500).json({ error: err.message }); }
 }
 
