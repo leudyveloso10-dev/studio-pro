@@ -695,7 +695,7 @@ Gere 3 versões completas e diferentes.`;
 
     const controller = new AbortController();
 const timeout = setTimeout(() => controller.abort(), 25000);
-const res=await fetch('/api/generate',{signal: controller.signal,
+const res=await fetch('/api/generate',{signal:AbortSignal.timeout(28000),signal: controller.signal,
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify(body)
