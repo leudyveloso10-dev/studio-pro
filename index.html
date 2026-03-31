@@ -4,181 +4,200 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Studio Pro — Leudy Veloso</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg:#f8f7f4;--white:#fff;--ink:#1a1614;--ink2:#4a4540;--ink3:#9a948e;
   --border:#ece8e2;--border2:#d8d2ca;
-
-  /* Anne's Confeitaria */
-  --annes-main:#F7C948;--annes-sec:#3DBFA8;--annes-dark:#1B2E4B;
-  --annes-pink:#F0A0B8;--annes-bg:#fffdf0;--annes-border:#f0d870;
-
-  /* FreedomTec */
-  --ftec-main:#0d1f2d;--ftec-gold:#c9a84c;--ftec-silver:#c0c0c0;
-  --ftec-bg:#f0f4f8;--ftec-border:#b8c8d8;
-
-  /* Leudy Veloso */
-  --leudy-main:#8b0000;--leudy-gold:#c9a84c;--leudy-black:#1a1a1a;
-  --leudy-bg:#fdf0f0;--leudy-border:#d4a0a0;
+  --annes:#F7C948;--annes-bg:#fffdf0;--annes-dark:#1B2E4B;
+  --ftec:#0d1f2d;--ftec-gold:#c9a84c;--ftec-bg:#f0f4f8;
+  --leudy:#8b0000;--leudy-gold:#c9a84c;--leudy-bg:#fdf0f0;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;min-height:100vh;}
-
-/* ── LAYOUT ── */
 .shell{display:flex;min-height:100vh;}
+
+/* SIDENAV */
 .sidenav{width:64px;background:var(--ink);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:6px;flex-shrink:0;position:sticky;top:0;height:100vh;}
-.logo{font-family:'Playfair Display',serif;color:white;font-size:15px;font-weight:900;margin-bottom:12px;line-height:1;text-align:center;}
+.logo{font-family:'Playfair Display',serif;color:white;font-size:15px;font-weight:900;margin-bottom:12px;}
 .logo span{color:#F7C948;}
 .ni{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:all .2s;color:rgba(255,255,255,.4);}
 .ni:hover{background:rgba(255,255,255,.09);color:white;}
 .ni.on{background:rgba(255,255,255,.15);color:white;}
 .nsp{flex:1;}
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 
-/* ── TOPBAR ── */
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 .topbar{background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .topbar-t{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;}
 .tbr{display:flex;gap:8px;}
 .tbb{padding:7px 14px;border-radius:8px;border:1px solid var(--border2);background:var(--white);color:var(--ink2);font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif;}
 .tbb:hover{border-color:var(--ink);color:var(--ink);}
 
-/* ── PAGES ── */
+/* PAGES */
 .page{display:none;flex:1;overflow-y:auto;}
 .page.on{display:flex;flex-direction:column;}
 
-/* ── STUDIO ── */
-.studio{display:grid;grid-template-columns:260px 1fr 310px;flex:1;min-height:0;}
-.pnl{border-right:1px solid var(--border);overflow-y:auto;padding:20px 16px;}
-.pnl:last-child{border-right:none;}
-.pt{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:12px;margin-top:4px;}
+/* STUDIO - 2 column: sidebar + main */
+.studio{display:grid;grid-template-columns:240px 1fr;flex:1;min-height:0;}
 
-/* ── PROFILE CARDS ── */
-.pc{border-radius:14px;border:2px solid var(--border);padding:12px;cursor:pointer;transition:all .2s;background:var(--white);margin-bottom:8px;position:relative;overflow:hidden;}
-.pc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--border);transition:background .2s;}
+/* LEFT SIDEBAR */
+.sidebar{border-right:1px solid var(--border);overflow-y:auto;padding:20px 14px;background:var(--white);}
+.pt{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:10px;margin-top:4px;}
+
+/* PROFILE CARDS */
+.pc{border-radius:12px;border:2px solid var(--border);padding:11px 11px 11px 14px;cursor:pointer;transition:all .2s;background:var(--bg);margin-bottom:7px;position:relative;overflow:hidden;}
+.pc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;}
 .pc:hover{transform:translateX(2px);}
-.pc.p-annes{border-color:var(--annes-border);background:var(--annes-bg);}
-.pc.p-annes::before{background:var(--annes-main);}
-.pc.p-ftec{border-color:var(--ftec-border);background:var(--ftec-bg);}
-.pc.p-ftec::before{background:var(--ftec-gold);}
-.pc.p-leudy{border-color:var(--leudy-border);background:var(--leudy-bg);}
-.pc.p-leudy::before{background:var(--leudy-main);}
-.pc-top{display:flex;align-items:center;gap:8px;margin-bottom:4px;padding-left:8px;}
-.pc-em{font-size:18px;}
-.pc-n{font-weight:600;font-size:13px;}
-.pc-d{font-size:10px;color:var(--ink3);line-height:1.4;padding-left:8px;}
-.pc-nets{display:flex;gap:3px;margin-top:6px;padding-left:8px;flex-wrap:wrap;}
+.pc.pa::before{background:var(--annes);}
+.pc.pa{border-color:#f0d870;background:var(--annes-bg);}
+.pc.pf::before{background:var(--ftec-gold);}
+.pc.pf{border-color:#b8c8d8;background:var(--ftec-bg);}
+.pc.pl::before{background:var(--leudy);}
+.pc.pl{border-color:#d4a0a0;background:var(--leudy-bg);}
+.pc-top{display:flex;align-items:center;gap:8px;margin-bottom:3px;}
+.pc-em{font-size:16px;}
+.pc-n{font-weight:600;font-size:12px;}
+.pc-d{font-size:10px;color:var(--ink3);line-height:1.4;}
+.pc-nets{display:flex;gap:3px;margin-top:5px;flex-wrap:wrap;}
 .nb{font-size:9px;padding:2px 6px;border-radius:20px;background:rgba(0,0,0,0.06);color:var(--ink2);}
 
-/* ── OPTIONS ── */
+/* OPTIONS */
 .opts{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px;}
-.op{padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);font-size:11px;font-weight:500;cursor:pointer;transition:all .18s;color:var(--ink2);background:var(--white);user-select:none;}
+.op{padding:5px 10px;border-radius:20px;border:1.5px solid var(--border);font-size:11px;font-weight:500;cursor:pointer;transition:all .18s;color:var(--ink2);background:var(--white);user-select:none;}
 .op:hover{border-color:var(--ink2);}
 .op.s{background:var(--ink);color:white;border-color:var(--ink);}
-.op.s-annes{background:var(--annes-main);color:var(--annes-dark);border-color:var(--annes-main);}
-.op.s-ftec{background:var(--ftec-main);color:var(--ftec-gold);border-color:var(--ftec-gold);}
-.op.s-leudy{background:var(--leudy-main);color:var(--leudy-gold);border-color:var(--leudy-main);}
 
-/* ── MID PANEL ── */
-.mid{padding:20px 24px;overflow-y:auto;background:var(--bg);}
+/* MAIN CONTENT AREA */
+.content-main{display:flex;flex-direction:column;overflow:hidden;flex:1;}
+
+/* TAB NAVIGATION */
+.tab-bar{display:flex;background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;flex-shrink:0;}
+.tab-btn{padding:14px 20px;font-size:13px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;color:var(--ink3);margin-bottom:-1px;display:flex;align-items:center;gap:6px;}
+.tab-btn.on{border-bottom-color:var(--ink);color:var(--ink);}
+.tab-content{display:none;flex:1;overflow-y:auto;}
+.tab-content.on{display:flex;flex-direction:column;}
+
+/* CONFIG TAB */
+.config-area{padding:24px;max-width:720px;}
 .fl{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:7px;display:block;}
-.tw{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:14px;margin-bottom:14px;transition:border-color .2s;}
+.tw{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:12px;margin-bottom:14px;transition:border-color .2s;}
 .tw:focus-within{border-color:var(--ink2);}
 textarea{width:100%;border:none;outline:none;background:transparent;font-family:'Outfit',sans-serif;font-size:13px;color:var(--ink);resize:none;line-height:1.7;}
 textarea::placeholder{color:var(--ink3);}
-.tf{display:flex;justify-content:space-between;align-items:center;padding-top:8px;margin-top:8px;border-top:1px solid var(--border);}
+.tf{display:flex;justify-content:space-between;align-items:center;padding-top:7px;margin-top:7px;border-top:1px solid var(--border);}
 .cc{font-size:10px;color:var(--ink3);}
 .smb{padding:4px 10px;border-radius:6px;border:1px solid var(--border2);background:var(--white);font-size:11px;cursor:pointer;color:var(--ink2);transition:all .18s;font-family:'Outfit',sans-serif;}
-.smb:hover{background:var(--ink);color:white;border-color:var(--ink);}
+.smb:hover{background:var(--ink);color:white;}
 
-/* ── GENERATE BUTTON ── */
-.gb{width:100%;padding:14px;border-radius:14px;border:none;font-family:'Playfair Display',serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;color:white;background:var(--ink);}
+/* IMAGE UPLOAD */
+.img-upload-area{display:flex;gap:12px;margin-bottom:14px;}
+.img-slot{flex:1;border:2px dashed var(--border2);border-radius:12px;padding:16px;text-align:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.img-slot:hover{border-color:var(--ink2);background:var(--white);}
+.img-slot.has-img{border-style:solid;border-color:var(--border2);}
+.img-slot input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.img-slot img{width:100%;height:80px;object-fit:cover;border-radius:8px;margin-bottom:6px;}
+.img-slot-icon{font-size:24px;margin-bottom:6px;color:var(--ink3);}
+.img-slot-label{font-size:11px;color:var(--ink3);}
+.img-slot-name{font-size:10px;color:var(--ink2);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;}
+.img-remove{position:absolute;top:6px;right:6px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,0.5);color:white;font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;}
+
+/* GENERATE BUTTON */
+.gb{width:100%;padding:14px;border-radius:12px;border:none;font-family:'Playfair Display',serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;color:white;background:var(--ink);}
 .gb:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.14);}
 .gb:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
-.gb.annes-btn{background:var(--annes-dark);}
-.gb.ftec-btn{background:var(--ftec-main);}
-.gb.leudy-btn{background:var(--leudy-main);}
+.gb.ba{background:var(--annes-dark);}
+.gb.bf{background:var(--ftec);}
+.gb.bl{background:var(--leudy);}
 
-/* ── SUGGESTIONS ── */
+/* SUGGESTIONS */
 .sug{font-size:11px;color:var(--ink2);padding:5px 11px;border-radius:20px;border:1px solid var(--border);cursor:pointer;background:var(--white);transition:all .18s;}
-.sug:hover{background:var(--ink);color:white;border-color:var(--ink);}
+.sug:hover{background:var(--ink);color:white;}
 
-/* ── STATS ── */
-.stats{display:flex;gap:20px;padding:14px 16px;background:var(--white);border-radius:14px;border:1px solid var(--border);margin-top:18px;}
-.stn{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;}
-.stl{font-size:10px;color:var(--ink3);}
+/* RESULT TAB */
+.result-area{padding:24px;flex:1;}
+.ver-row{display:flex;gap:6px;margin-bottom:16px;}
+.vb{padding:5px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);font-size:12px;font-weight:500;cursor:pointer;color:var(--ink2);transition:all .18s;}
+.vb.on{background:var(--ink);color:white;border-color:var(--ink);}
 
-/* ── OUTPUT PANEL ── */
-.op-pnl{padding:20px 16px;overflow-y:auto;background:var(--white);}
-.out-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:12px;overflow-x:auto;}
-.ot{padding:7px 12px;font-size:11px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:all .18s;color:var(--ink3);margin-bottom:-1px;white-space:nowrap;}
-.ot.on{border-bottom-color:var(--ink);color:var(--ink);}
-.oc{display:none;}
-.oc.on{display:block;}
-.ob{background:var(--bg);border:1px solid var(--border);border-radius:14px;margin-bottom:10px;overflow:hidden;animation:fu .35s ease;}
+/* RESULT TABS */
+.res-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:16px;}
+.rt{padding:8px 14px;font-size:12px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:all .18s;color:var(--ink3);margin-bottom:-1px;white-space:nowrap;}
+.rt.on{border-bottom-color:var(--ink);color:var(--ink);}
+.rc{display:none;}
+.rc.on{display:block;}
+
+/* OUTPUT BLOCKS */
+.ob{background:var(--bg);border:1px solid var(--border);border-radius:14px;margin-bottom:12px;overflow:hidden;animation:fu .35s ease;}
 @keyframes fu{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.ob-h{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;border-bottom:1px solid var(--border);background:var(--white);}
+.ob-h{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--white);}
 .ob-l{font-size:10px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;}
-.cb{padding:4px 10px;border-radius:6px;border:1px solid var(--border2);background:var(--white);font-size:11px;cursor:pointer;color:var(--ink2);transition:all .18s;font-family:'Outfit',sans-serif;}
-.cb:hover{background:var(--ink);color:white;border-color:var(--ink);}
-.ob-b{padding:13px;font-size:12px;line-height:1.8;color:var(--ink);white-space:pre-wrap;max-height:280px;overflow-y:auto;}
-.ob-b.code{font-family:monospace;font-size:11px;color:#185fa5;background:#f0f4ff;}
+.cb{padding:4px 12px;border-radius:6px;border:1px solid var(--border2);background:var(--white);font-size:11px;cursor:pointer;color:var(--ink2);transition:all .18s;font-family:'Outfit',sans-serif;}
+.cb:hover{background:var(--ink);color:white;}
+.ob-b{padding:16px;font-size:13px;line-height:1.9;color:var(--ink);white-space:pre-wrap;}
+.ob-b.code{font-family:monospace;font-size:12px;color:#185fa5;background:#f0f4ff;}
 
-/* ── HASHTAGS ── */
-.hc{padding:13px;display:flex;flex-wrap:wrap;gap:5px;}
-.hp{padding:4px 10px;border-radius:20px;background:var(--border);font-size:11px;color:var(--ink2);cursor:pointer;transition:all .18s;}
+/* HASHTAGS */
+.hc{padding:14px;display:flex;flex-wrap:wrap;gap:6px;}
+.hp{padding:5px 12px;border-radius:20px;background:var(--border);font-size:12px;color:var(--ink2);cursor:pointer;transition:all .18s;}
 .hp:hover{background:var(--ink);color:white;}
 
-/* ── IMAGE LINKS ── */
-.il{padding:13px;display:flex;flex-direction:column;gap:6px;}
-.ilb{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;border:1.5px solid var(--border);background:var(--white);cursor:pointer;text-decoration:none;color:var(--ink);font-size:12px;font-weight:500;transition:all .18s;}
+/* IMAGE LINKS */
+.il{padding:14px;display:flex;flex-direction:column;gap:7px;}
+.ilb{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--white);cursor:pointer;text-decoration:none;color:var(--ink);font-size:13px;font-weight:500;transition:all .18s;}
 .ilb:hover{border-color:var(--ink2);transform:translateX(2px);}
 .ilb-s{font-size:10px;color:var(--ink3);font-weight:400;}
 
-/* ── VERSIONS ── */
-.vr{display:flex;gap:5px;margin-bottom:12px;}
-.vb{padding:4px 12px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);font-size:11px;font-weight:500;cursor:pointer;color:var(--ink2);transition:all .18s;}
-.vb.on{background:var(--ink);color:white;border-color:var(--ink);}
-
-/* ── SCHEDULE BTN ── */
-.schb{width:100%;padding:10px;border-radius:8px;border:1.5px solid var(--border);background:var(--white);font-size:12px;font-weight:500;cursor:pointer;color:var(--ink2);transition:all .18s;font-family:'Outfit',sans-serif;margin-top:8px;}
-.schb:hover{background:var(--ink);color:white;border-color:var(--ink);}
-
-/* ── SHIMMER ── */
-.sw{padding:12px;display:flex;flex-direction:column;gap:8px;}
-.sh{height:12px;border-radius:5px;background:linear-gradient(90deg,var(--border) 25%,#ece8e280 50%,var(--border) 75%);background-size:200% 100%;animation:shi 1.5s infinite;}
+/* SHIMMER */
+.sw{padding:14px;display:flex;flex-direction:column;gap:9px;}
+.sh{height:13px;border-radius:5px;background:linear-gradient(90deg,var(--border) 25%,#ece8e280 50%,var(--border) 75%);background-size:200% 100%;animation:shi 1.5s infinite;}
 @keyframes shi{0%{background-position:200% 0}100%{background-position:-200% 0}}
 .sh1{width:90%}.sh2{width:68%}.sh3{width:82%}.sh4{width:50%}
 
-/* ── CALENDAR ── */
+/* EMPTY STATE */
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px;text-align:center;color:var(--ink3);}
+.empty-icon{font-size:48px;margin-bottom:16px;opacity:.5;}
+.empty-t{font-size:15px;font-weight:500;color:var(--ink2);margin-bottom:6px;}
+.empty-s{font-size:12px;line-height:1.6;}
+
+/* SCHEDULE BTN */
+.schb{display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:8px;border:1.5px solid var(--border);background:var(--white);font-size:12px;font-weight:500;cursor:pointer;color:var(--ink2);transition:all .18s;font-family:'Outfit',sans-serif;margin-top:8px;}
+.schb:hover{background:var(--ink);color:white;}
+
+/* STATS */
+.stats-row{display:flex;gap:20px;padding:14px 16px;background:var(--white);border-radius:12px;border:1px solid var(--border);margin-top:16px;}
+.stn{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;}
+.stl{font-size:10px;color:var(--ink3);}
+
+/* ERROR */
+.err{background:#fdf0f0;border:1px solid #f5c0c0;border-radius:10px;padding:12px 14px;font-size:12px;color:#8b0000;line-height:1.6;margin-bottom:12px;}
+
+/* CALENDAR */
 .cal-pg{padding:24px;flex:1;}
 .cal-hr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
 .cal-tit{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;}
-.cal-dh{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:5px;}
+.cal-dh{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px;}
 .cal-dh div{text-align:center;font-size:10px;font-weight:600;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;padding:4px;}
-.cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
+.cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
 .cc2{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:8px 6px;min-height:80px;cursor:pointer;transition:all .18s;}
 .cc2:hover{border-color:var(--ink2);}
 .cc2.tod{border-color:var(--ink);border-width:2px;}
 .cc2.om{opacity:.3;}
 .cdn{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;margin-bottom:3px;}
-.tod .cdn{color:var(--leudy-main);}
+.tod .cdn{color:var(--leudy);}
 .cev{font-size:9px;padding:2px 4px;border-radius:3px;margin-bottom:2px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.ev-annes{background:var(--annes-bg);color:#8a6800;}
-.ev-ftec{background:var(--ftec-bg);color:var(--ftec-main);}
-.ev-leudy{background:var(--leudy-bg);color:var(--leudy-main);}
+.ev-a{background:var(--annes-bg);color:#8a6800;}
+.ev-f{background:var(--ftec-bg);color:var(--ftec);}
+.ev-l{background:var(--leudy-bg);color:var(--leudy);}
 .leg{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;}
 .li{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink2);}
 .ld{width:9px;height:9px;border-radius:50%;}
 
-/* ── PROFILES PAGE ── */
+/* PROFILES PAGE */
 .prof-pg{padding:24px;flex:1;}
 .prof-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:20px;}
-.bpc{background:var(--white);border:2px solid var(--border);border-radius:20px;padding:24px;transition:all .2s;overflow:hidden;position:relative;}
+.bpc{background:var(--white);border:2px solid var(--border);border-radius:20px;padding:24px;transition:all .2s;}
 .bpc:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.07);}
-.bpc-annes{border-top:5px solid var(--annes-main);}
-.bpc-ftec{border-top:5px solid var(--ftec-gold);}
-.bpc-leudy{border-top:5px solid var(--leudy-main);}
 .bpe{font-size:32px;margin-bottom:10px;}
 .bpn{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:4px;}
 .bpd{font-size:12px;color:var(--ink3);line-height:1.6;margin-bottom:14px;}
@@ -186,9 +205,9 @@ textarea::placeholder{color:var(--ink3);}
 .palette-row{display:flex;gap:5px;margin:10px 0;}
 .psw{width:20px;height:20px;border-radius:5px;border:1px solid rgba(0,0,0,0.08);}
 .bpb{margin-top:14px;padding:9px;border-radius:10px;border:1.5px solid var(--border);background:transparent;font-size:12px;font-weight:500;cursor:pointer;color:var(--ink2);transition:all .18s;font-family:'Outfit',sans-serif;width:100%;}
-.bpb:hover{background:var(--ink);color:white;border-color:var(--ink);}
+.bpb:hover{background:var(--ink);color:white;}
 
-/* ── MODAL ── */
+/* MODAL */
 .mo{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:500;}
 .mo.open{display:flex;}
 .md{background:var(--white);border-radius:20px;padding:28px;max-width:360px;width:90%;animation:fu .3s ease;}
@@ -199,12 +218,9 @@ textarea::placeholder{color:var(--ink3);}
 .mb{flex:1;padding:10px;border-radius:8px;border:1.5px solid var(--border);font-size:12px;font-weight:500;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
 .mb.p{background:var(--ink);color:white;border-color:var(--ink);}
 
-/* ── TOAST ── */
+/* TOAST */
 .toast{position:fixed;bottom:20px;right:20px;background:var(--ink);color:white;padding:10px 18px;border-radius:10px;font-size:12px;z-index:9999;transform:translateY(60px);opacity:0;transition:all .3s;}
 .toast.on{transform:translateY(0);opacity:1;}
-
-/* ── ERROR BOX ── */
-.err{background:#fdf0f0;border:1px solid #f5c0c0;border-radius:10px;padding:12px 14px;font-size:12px;color:#8b0000;line-height:1.6;margin-bottom:10px;}
 
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
@@ -215,9 +231,9 @@ textarea::placeholder{color:var(--ink3);}
 
   <nav class="sidenav">
     <div class="logo">S<span>P</span></div>
-    <div class="ni on" onclick="nav('studio',this)" title="Studio">✏️</div>
-    <div class="ni" onclick="nav('calendar',this)" title="Calendário">📅</div>
-    <div class="ni" onclick="nav('profiles',this)" title="Perfis">👤</div>
+    <div class="ni on" onclick="nav('studio',this)">✏️</div>
+    <div class="ni" onclick="nav('calendar',this)">📅</div>
+    <div class="ni" onclick="nav('profiles',this)">👤</div>
     <div class="nsp"></div>
   </nav>
 
@@ -225,39 +241,35 @@ textarea::placeholder{color:var(--ink3);}
     <div class="topbar">
       <div class="topbar-t" id="ptitle">Studio de Criação</div>
       <div class="tbr">
-        <button class="tbb" onclick="fillEx()">✨ Exemplo</button>
         <button class="tbb" onclick="nav('calendar',null)">📅 Calendário</button>
       </div>
     </div>
 
-    <!-- ── STUDIO ── -->
+    <!-- STUDIO -->
     <div class="page on" id="pg-studio">
       <div class="studio">
 
-        <!-- LEFT -->
-        <div class="pnl">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
           <div class="pt">Perfil</div>
-
-          <div class="pc p-annes" data-p="annes" onclick="selP(this)">
+          <div class="pc pa" data-p="annes" onclick="selP(this)">
             <div class="pc-top"><span class="pc-em">🐝</span><span class="pc-n">Anne's Confeitaria</span></div>
-            <div class="pc-d">Bolos, doces, salgados, kits festas e corporativos</div>
-            <div class="pc-nets"><span class="nb">📸 Instagram</span><span class="nb">🎵 TikTok</span></div>
+            <div class="pc-d">Bolos, doces, salgados, kits festas</div>
+            <div class="pc-nets"><span class="nb">📸 Insta</span><span class="nb">🎵 TikTok</span></div>
           </div>
-
           <div class="pc" data-p="ftec" onclick="selP(this)">
             <div class="pc-top"><span class="pc-em">⚙️</span><span class="pc-n">FreedomTec Engenharia</span></div>
-            <div class="pc-d">Reformas, limpeza dielétrica, faróis Altezza e Berg Steel</div>
-            <div class="pc-nets"><span class="nb">💼 LinkedIn</span><span class="nb">📸 Instagram</span></div>
+            <div class="pc-d">Reformas, limpeza dielétrica, faróis</div>
+            <div class="pc-nets"><span class="nb">💼 LinkedIn</span><span class="nb">📸 Insta</span></div>
           </div>
-
           <div class="pc" data-p="leudy" onclick="selP(this)">
             <div class="pc-top"><span class="pc-em">🐦</span><span class="pc-n">Leudy Veloso</span></div>
-            <div class="pc-d">Marketing, IA, gastronomia, lifestyle e ensaios pessoais</div>
-            <div class="pc-nets"><span class="nb">📸 Instagram</span><span class="nb">💼 LinkedIn</span><span class="nb">🎵 TikTok</span></div>
+            <div class="pc-d">Marketing, IA, gastronomia, lifestyle</div>
+            <div class="pc-nets"><span class="nb">📸 Insta</span><span class="nb">💼 LinkedIn</span><span class="nb">🎵 TikTok</span></div>
           </div>
 
-          <div class="pt" style="margin-top:16px">Rede Social</div>
-          <div class="opts" id="net-opts">
+          <div class="pt" style="margin-top:14px">Rede Social</div>
+          <div class="opts">
             <div class="op s" data-v="Instagram" onclick="tog(this,'net')">📸 Instagram</div>
             <div class="op" data-v="LinkedIn" onclick="tog(this,'net')">💼 LinkedIn</div>
             <div class="op" data-v="TikTok" onclick="tog(this,'net')">🎵 TikTok</div>
@@ -272,12 +284,12 @@ textarea::placeholder{color:var(--ink3);}
             <div class="op" data-v="Reels" onclick="tog(this,'fmt')">Reels</div>
           </div>
 
-          <div class="pt">Tom de Voz</div>
+          <div class="pt">Tom</div>
           <div class="opts">
-            <div class="op s" data-v="Automático (perfil)" onclick="sing(this)">Automático</div>
+            <div class="op s" data-v="Automático" onclick="sing(this)">Automático</div>
             <div class="op" data-v="Mais vendedor" onclick="sing(this)">Vendedor</div>
-            <div class="op" data-v="Mais educativo" onclick="sing(this)">Educativo</div>
-            <div class="op" data-v="Storytelling pessoal" onclick="sing(this)">Storytelling</div>
+            <div class="op" data-v="Educativo" onclick="sing(this)">Educativo</div>
+            <div class="op" data-v="Storytelling" onclick="sing(this)">Storytelling</div>
           </div>
 
           <div class="pt">Gerar</div>
@@ -289,110 +301,145 @@ textarea::placeholder{color:var(--ink3);}
           </div>
         </div>
 
-        <!-- MID -->
-        <div class="mid">
-          <label class="fl">Sobre o que é este conteúdo?</label>
-          <div class="tw">
-            <textarea id="prompt" rows="5" maxlength="400" oninput="uc(this)"
-              placeholder="Descreva o tema. Ex: Quero mostrar o kit festa corporativo que fiz para uma empresa de mineração, com bolo personalizado e salgados variados..."></textarea>
-            <div class="tf">
-              <span class="cc" id="cc">0 / 400</span>
-              <button class="smb" onclick="clearF()">✕ Limpar</button>
-            </div>
+        <!-- MAIN CONTENT -->
+        <div class="content-main">
+          <!-- TAB BAR -->
+          <div class="tab-bar">
+            <div class="tab-btn on" onclick="switchTab('config',this)">⚙️ Configurar</div>
+            <div class="tab-btn" id="result-tab-btn" onclick="switchTab('result',this)">✨ Resultado</div>
           </div>
 
-          <label class="fl">Detalhes extras (opcional)</label>
-          <div class="tw">
-            <textarea id="extra" rows="2" maxlength="150" placeholder="Ex: mencionar promoção especial, evento, lançamento..."></textarea>
-          </div>
+          <!-- CONFIG TAB -->
+          <div class="tab-content on" id="tab-config">
+            <div class="config-area">
 
-          <button class="gb" id="gbtn" onclick="gen()">✨ Gerar Conteúdo</button>
+              <label class="fl">Sobre o que é este conteúdo?</label>
+              <div class="tw">
+                <textarea id="prompt" rows="3" maxlength="400" oninput="uc(this)"
+                  placeholder="Descreva o tema. Ex: Kit festa corporativo de Páscoa com bolo personalizado e salgados variados..."></textarea>
+                <div class="tf">
+                  <span class="cc" id="cc">0 / 400</span>
+                  <button class="smb" onclick="clearF()">✕ Limpar</button>
+                </div>
+              </div>
 
-          <div style="margin-top:18px">
-            <label class="fl">Sugestões de tema</label>
-            <div class="opts" id="sugs"></div>
-          </div>
+              <label class="fl">Detalhes extras (opcional)</label>
+              <div class="tw">
+                <textarea id="extra" rows="2" maxlength="150" placeholder="Ex: mencionar promoção, evento especial, lançamento..."></textarea>
+              </div>
 
-          <div class="stats">
-            <div><div class="stn" id="cnt-g">0</div><div class="stl">Gerados</div></div>
-            <div><div class="stn" id="cnt-s">0</div><div class="stl">Agendados</div></div>
-          </div>
-        </div>
+              <!-- IMAGE UPLOAD -->
+              <label class="fl">📸 Fotos de referência (até 2 imagens)</label>
+              <div class="img-upload-area">
+                <div class="img-slot" id="slot1" onclick="triggerUpload(1)">
+                  <input type="file" id="file1" accept="image/*" onchange="handleImg(1,this)" style="display:none">
+                  <div id="slot1-content">
+                    <div class="img-slot-icon">+</div>
+                    <div class="img-slot-label">Foto 1<br><span style="font-size:10px;opacity:.7">produto, ambiente ou pessoa</span></div>
+                  </div>
+                </div>
+                <div class="img-slot" id="slot2" onclick="triggerUpload(2)">
+                  <input type="file" id="file2" accept="image/*" onchange="handleImg(2,this)" style="display:none">
+                  <div id="slot2-content">
+                    <div class="img-slot-icon">+</div>
+                    <div class="img-slot-label">Foto 2<br><span style="font-size:10px;opacity:.7">composição ou cenário</span></div>
+                  </div>
+                </div>
+              </div>
+              <div style="font-size:11px;color:var(--ink3);margin-bottom:16px;">
+                💡 O Gemini analisa as fotos e cria prompts fiéis aos seus produtos e pessoas reais
+              </div>
 
-        <!-- OUTPUT -->
-        <div class="op-pnl">
-          <div class="pt">Conteúdo Gerado</div>
-          <div class="vr">
-            <button class="vb on" onclick="sv(this,0)">V1</button>
-            <button class="vb" onclick="sv(this,1)">V2</button>
-            <button class="vb" onclick="sv(this,2)">V3</button>
-          </div>
-          <div class="out-tabs">
-            <div class="ot on" onclick="st('leg',this)">Legenda</div>
-            <div class="ot" onclick="st('img',this)">Imagem</div>
-            <div class="ot" onclick="st('hash',this)">Hashtags</div>
-            <div class="ot" onclick="st('rot',this)">Roteiro</div>
-          </div>
+              <button class="gb" id="gbtn" onclick="gen()">✨ Gerar Conteúdo</button>
 
-          <div class="oc on" id="oc-leg">
-            <div id="err-box"></div>
-            <div class="ob">
-              <div class="ob-h"><span class="ob-l">Legenda</span><button class="cb" onclick="cp('leg-txt')">Copiar</button></div>
-              <div class="ob-b" id="leg-txt" style="color:var(--ink3);font-style:italic">Selecione um perfil, descreva o tema e clique em Gerar.</div>
-            </div>
-            <button class="schb" onclick="agBtn()">📅 Agendar este Post</button>
-          </div>
+              <div style="margin-top:18px">
+                <label class="fl">Sugestões de tema</label>
+                <div class="opts" id="sugs"></div>
+              </div>
 
-          <div class="oc" id="oc-img">
-            <div class="ob">
-              <div class="ob-h"><span class="ob-l">Prompt em inglês</span><button class="cb" onclick="cp('img-en')">Copiar</button></div>
-              <div class="ob-b code" id="img-en">—</div>
-            </div>
-            <div class="ob">
-              <div class="ob-h"><span class="ob-l">Prompt em português</span><button class="cb" onclick="cp('img-pt')">Copiar</button></div>
-              <div class="ob-b" id="img-pt">—</div>
-            </div>
-            <div class="ob">
-              <div class="ob-h"><span class="ob-l">Abrir gerador de imagens</span></div>
-              <div class="il">
-                <a class="ilb" href="https://www.canva.com/ai-image-generator/" target="_blank">
-                  <span style="font-size:18px">🎨</span>
-                  <div><div>Canva AI</div><div class="ilb-s">Cole o prompt e gere</div></div>
-                </a>
-                <a class="ilb" href="https://www.freepik.com/ai/image-generator" target="_blank">
-                  <span style="font-size:18px">🖼️</span>
-                  <div><div>Freepik AI</div><div class="ilb-s">Use sua foto como base</div></div>
-                </a>
-                <a class="ilb" href="https://ideogram.ai" target="_blank">
-                  <span style="font-size:18px">✨</span>
-                  <div><div>Ideogram</div><div class="ilb-s">Ótimo para texto em imagens</div></div>
-                </a>
-                <a class="ilb" href="https://leonardo.ai" target="_blank">
-                  <span style="font-size:18px">🎭</span>
-                  <div><div>Leonardo AI</div><div class="ilb-s">Alta qualidade, gratuito</div></div>
-                </a>
+              <div class="stats-row">
+                <div><div class="stn" id="cnt-g">0</div><div class="stl">Gerados</div></div>
+                <div><div class="stn" id="cnt-s">0</div><div class="stl">Agendados</div></div>
               </div>
             </div>
           </div>
 
-          <div class="oc" id="oc-hash">
-            <div class="ob">
-              <div class="ob-h"><span class="ob-l">Hashtags</span><button class="cb" onclick="cpAll()">Copiar Todas</button></div>
-              <div class="hc" id="hcloud"><span style="font-size:11px;color:var(--ink3)">Gere o conteúdo primeiro</span></div>
-            </div>
-          </div>
+          <!-- RESULT TAB -->
+          <div class="tab-content" id="tab-result">
+            <div class="result-area">
+              <div id="empty-result" class="empty-state">
+                <div class="empty-icon">✨</div>
+                <div class="empty-t">Nenhum conteúdo gerado ainda</div>
+                <div class="empty-s">Configure o tema na aba anterior e clique em Gerar Conteúdo</div>
+              </div>
 
-          <div class="oc" id="oc-rot">
-            <div class="ob">
-              <div class="ob-h"><span class="ob-l">Roteiro Reels/Stories</span><button class="cb" onclick="cp('rot-txt')">Copiar</button></div>
-              <div class="ob-b" id="rot-txt" style="color:var(--ink3);font-style:italic">Gere o conteúdo para ver o roteiro.</div>
+              <div id="result-content" style="display:none">
+                <div class="ver-row">
+                  <button class="vb on" onclick="sv(this,0)">Versão 1</button>
+                  <button class="vb" onclick="sv(this,1)">Versão 2</button>
+                  <button class="vb" onclick="sv(this,2)">Versão 3</button>
+                </div>
+
+                <div class="res-tabs">
+                  <div class="rt on" onclick="srt('leg',this)">📝 Legenda</div>
+                  <div class="rt" onclick="srt('img',this)">🎨 Prompt Imagem</div>
+                  <div class="rt" onclick="srt('hash',this)">🏷️ Hashtags</div>
+                  <div class="rt" onclick="srt('rot',this)">🎬 Roteiro</div>
+                </div>
+
+                <!-- Legenda -->
+                <div class="rc on" id="rc-leg">
+                  <div class="ob">
+                    <div class="ob-h"><span class="ob-l">Legenda completa</span><button class="cb" onclick="cp('leg-txt')">Copiar</button></div>
+                    <div class="ob-b" id="leg-txt"></div>
+                  </div>
+                  <button class="schb" onclick="agBtn()">📅 Agendar este Post</button>
+                </div>
+
+                <!-- Prompt Imagem -->
+                <div class="rc" id="rc-img">
+                  <div class="ob">
+                    <div class="ob-h"><span class="ob-l">Prompt em inglês (Midjourney / Leonardo)</span><button class="cb" onclick="cp('img-en')">Copiar</button></div>
+                    <div class="ob-b code" id="img-en"></div>
+                  </div>
+                  <div class="ob">
+                    <div class="ob-h"><span class="ob-l">Prompt em português (Canva / Freepik)</span><button class="cb" onclick="cp('img-pt')">Copiar</button></div>
+                    <div class="ob-b" id="img-pt"></div>
+                  </div>
+                  <div class="ob">
+                    <div class="ob-h"><span class="ob-l">Abrir gerador de imagens</span></div>
+                    <div class="il">
+                      <a class="ilb" href="https://www.freepik.com/ai/image-generator" target="_blank"><span style="font-size:18px">🖼️</span><div><div>Freepik AI</div><div class="ilb-s">Use suas fotos como base (img2img)</div></div></a>
+                      <a class="ilb" href="https://www.canva.com/ai-image-generator/" target="_blank"><span style="font-size:18px">🎨</span><div><div>Canva AI</div><div class="ilb-s">Cole o prompt e gere</div></div></a>
+                      <a class="ilb" href="https://ideogram.ai" target="_blank"><span style="font-size:18px">✨</span><div><div>Ideogram</div><div class="ilb-s">Ótimo para texto em imagens</div></div></a>
+                      <a class="ilb" href="https://leonardo.ai" target="_blank"><span style="font-size:18px">🎭</span><div><div>Leonardo AI</div><div class="ilb-s">Alta qualidade, gratuito</div></div></a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Hashtags -->
+                <div class="rc" id="rc-hash">
+                  <div class="ob">
+                    <div class="ob-h"><span class="ob-l">Hashtags estratégicas</span><button class="cb" onclick="cpAll()">Copiar Todas</button></div>
+                    <div class="hc" id="hcloud"></div>
+                  </div>
+                </div>
+
+                <!-- Roteiro -->
+                <div class="rc" id="rc-rot">
+                  <div class="ob">
+                    <div class="ob-h"><span class="ob-l">Roteiro Reels / Stories</span><button class="cb" onclick="cp('rot-txt')">Copiar</button></div>
+                    <div class="ob-b" id="rot-txt"></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ── CALENDAR ── -->
+    <!-- CALENDAR -->
     <div class="page" id="pg-calendar">
       <div class="cal-pg">
         <div class="cal-hr">
@@ -405,72 +452,58 @@ textarea::placeholder{color:var(--ink3);}
         <div class="cal-dh"><div>DOM</div><div>SEG</div><div>TER</div><div>QUA</div><div>QUI</div><div>SEX</div><div>SÁB</div></div>
         <div class="cal-g" id="cal-g"></div>
         <div class="leg">
-          <div class="li"><div class="ld" style="background:var(--annes-main)"></div>Anne's Confeitaria</div>
+          <div class="li"><div class="ld" style="background:var(--annes)"></div>Anne's Confeitaria</div>
           <div class="li"><div class="ld" style="background:var(--ftec-gold)"></div>FreedomTec</div>
-          <div class="li"><div class="ld" style="background:var(--leudy-main)"></div>Leudy Veloso</div>
+          <div class="li"><div class="ld" style="background:var(--leudy)"></div>Leudy Veloso</div>
         </div>
       </div>
     </div>
 
-    <!-- ── PROFILES ── -->
+    <!-- PROFILES -->
     <div class="page" id="pg-profiles">
       <div class="prof-pg">
         <div class="cal-hr"><div class="cal-tit">Seus Perfis</div></div>
         <div class="prof-g">
-
-          <div class="bpc bpc-annes">
-            <div class="bpe">🐝</div>
-            <div class="bpn">Anne's Confeitaria</div>
-            <div class="bpd">Confeitaria artesanal com bolos personalizados, doces finos, salgados e kits festas para todos os públicos.</div>
+          <div class="bpc" style="border-top:5px solid var(--annes)">
+            <div class="bpe">🐝</div><div class="bpn">Anne's Confeitaria</div>
+            <div class="bpd">Confeitaria artesanal — bolos personalizados, doces finos, salgados e kits festas.</div>
             <div class="palette-row">
-              <div class="psw" style="background:#F7C948" title="#F7C948"></div>
-              <div class="psw" style="background:#3DBFA8" title="#3DBFA8"></div>
-              <div class="psw" style="background:#1B2E4B" title="#1B2E4B"></div>
-              <div class="psw" style="background:#F0A0B8" title="#F0A0B8"></div>
-              <div class="psw" style="background:#E8763A" title="#E8763A"></div>
+              <div class="psw" style="background:#F7C948"></div>
+              <div class="psw" style="background:#3DBFA8"></div>
+              <div class="psw" style="background:#1B2E4B"></div>
+              <div class="psw" style="background:#F0A0B8"></div>
             </div>
             <div class="bps">📸 Instagram &nbsp; 🎵 TikTok</div>
-            <div class="bps">🐝 Símbolo: Abelha com coroa</div>
-            <div class="bps">🎯 Descontraído, elegante e vendedor</div>
+            <div class="bps">🐝 Abelha com coroa · Descontraído e vendedor</div>
             <button class="bpb" onclick="nav('studio',null);selByKey('annes')">✏️ Criar conteúdo</button>
           </div>
-
-          <div class="bpc bpc-ftec">
-            <div class="bpe">⚙️</div>
-            <div class="bpn">FreedomTec Engenharia</div>
-            <div class="bpd">Engenharia e Serviços Técnicos para mineração: reformas de componentes, limpeza dielétrica e representações.</div>
+          <div class="bpc" style="border-top:5px solid var(--ftec-gold)">
+            <div class="bpe">⚙️</div><div class="bpn">FreedomTec Engenharia</div>
+            <div class="bpd">Engenharia e serviços técnicos para mineração — reformas, limpeza dielétrica e representações.</div>
             <div class="palette-row">
-              <div class="psw" style="background:#0d1f2d" title="#0d1f2d"></div>
-              <div class="psw" style="background:#c9a84c" title="#c9a84c"></div>
-              <div class="psw" style="background:#c0c0c0" title="#c0c0c0"></div>
-              <div class="psw" style="background:#ffffff;border:1px solid #ddd" title="#ffffff"></div>
+              <div class="psw" style="background:#0d1f2d"></div>
+              <div class="psw" style="background:#c9a84c"></div>
+              <div class="psw" style="background:#c0c0c0"></div>
             </div>
             <div class="bps">💼 LinkedIn &nbsp; 📸 Instagram</div>
-            <div class="bps">⛵ Símbolo: Velas náuticas douradas</div>
-            <div class="bps">🎯 Técnico, didático e profissional</div>
+            <div class="bps">⛵ Velas náuticas · Técnico e profissional</div>
             <button class="bpb" onclick="nav('studio',null);selByKey('ftec')">✏️ Criar conteúdo</button>
           </div>
-
-          <div class="bpc bpc-leudy">
-            <div class="bpe">🐦</div>
-            <div class="bpn">Leudy Veloso</div>
-            <div class="bpd">Marketing e Inovação com IA. Tecnologia, gastronomia, lifestyle, ensaios pessoais e imagens conceituais.</div>
+          <div class="bpc" style="border-top:5px solid var(--leudy)">
+            <div class="bpe">🐦</div><div class="bpn">Leudy Veloso</div>
+            <div class="bpd">Marketing e Inovação com IA — tecnologia, gastronomia, lifestyle e ensaios pessoais.</div>
             <div class="palette-row">
-              <div class="psw" style="background:#8b0000" title="#8b0000"></div>
-              <div class="psw" style="background:#c9a84c" title="#c9a84c"></div>
-              <div class="psw" style="background:#1a1a1a" title="#1a1a1a"></div>
-              <div class="psw" style="background:#f5f0ea;border:1px solid #ddd" title="#f5f0ea"></div>
+              <div class="psw" style="background:#8b0000"></div>
+              <div class="psw" style="background:#c9a84c"></div>
+              <div class="psw" style="background:#1a1a1a"></div>
             </div>
             <div class="bps">📸 Instagram &nbsp; 💼 LinkedIn &nbsp; 🎵 TikTok</div>
-            <div class="bps">🐦 Símbolo: Beija-flor dourado</div>
-            <div class="bps">🎯 Leve, reflexivo e dinâmico</div>
+            <div class="bps">🐦 Beija-flor dourado · Leve e reflexivo</div>
             <button class="bpb" onclick="nav('studio',null);selByKey('leudy')">✏️ Criar conteúdo</button>
           </div>
-
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -495,37 +528,60 @@ textarea::placeholder{color:var(--ink3);}
 
 <script>
 const PR = {
-  annes:{
-    name:"Anne's Confeitaria", em:'🐝', ec:'ev-annes',
-    color:'var(--annes-dark)', btnCls:'annes-btn',
-    sugs:['Kit festa corporativo especial','Bolo personalizado do mês','Bastidores da produção','Promoção de encomendas','Salgados para eventos','Doces finos artesanais']
-  },
-  ftec:{
-    name:'FreedomTec Engenharia', em:'⚙️', ec:'ev-ftec',
-    color:'var(--ftec-main)', btnCls:'ftec-btn',
-    sugs:['Reforma de componente elétrico','Limpeza dielétrica na prática','Faróis Altezza para mineração','Case de sucesso técnico','Dica de manutenção industrial','Representação Berg Steel']
-  },
-  leudy:{
-    name:'Leudy Veloso', em:'🐦', ec:'ev-leudy',
-    color:'var(--leudy-main)', btnCls:'leudy-btn',
-    sugs:['Ferramenta de IA que uso todo dia','Experiência gastronômica incrível','Reflexão sobre tecnologia e vida','Imagem conceitual criativa','Dica de marketing digital','Ensaio pessoal do mês']
-  }
-};
-
-const EX = {
-  annes:'Quero mostrar o kit festa corporativo que preparei para uma empresa de mineração — bolo personalizado com a logo da empresa, salgados variados e doces finos embalados individualmente',
-  ftec:'Quero mostrar o processo de reforma de um motor elétrico que chegou completamente oxidado e saiu como novo após limpeza dielétrica e substituição dos componentes danificados',
-  leudy:'Quero compartilhar minha reflexão sobre como a inteligência artificial está mudando o marketing digital e como profissionais podem usar essas ferramentas a seu favor'
+  annes:{ name:"Anne's Confeitaria", em:'🐝', ec:'ev-a', btnCls:'ba', sugs:['Kit festa corporativo','Bolo personalizado do mês','Bastidores da produção','Promoção de encomendas','Salgados para eventos','Doces finos artesanais'] },
+  ftec:{ name:'FreedomTec Engenharia', em:'⚙️', ec:'ev-f', btnCls:'bf', sugs:['Reforma de componente','Limpeza dielétrica na prática','Faróis Altezza para mineração','Case de sucesso técnico','Manutenção industrial','Representação Berg Steel'] },
+  leudy:{ name:'Leudy Veloso', em:'🐦', ec:'ev-l', btnCls:'bl', sugs:['Ferramenta de IA que uso','Experiência gastronômica','Reflexão sobre tecnologia','Imagem conceitual criativa','Dica de marketing digital','Ensaio pessoal do mês'] }
 };
 
 const S = {
-  p:'annes', nets:['Instagram'], fmts:['Post/Feed'], tom:'Automático (perfil)',
+  p:'annes', nets:['Instagram'], fmts:['Post/Feed'], tom:'Automático',
   gens:['legenda','imagem','hashtags','roteiro'],
   vers:[null,null,null], cv:0, cg:0, cs:0,
-  cm:new Date(), evs:[]
+  cm:new Date(), evs:[],
+  imgs:[null,null]
 };
 
-function nav(id,el){
+// IMAGE HANDLING
+function triggerUpload(n) {
+  document.getElementById('file'+n).click();
+}
+
+function handleImg(n, input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const base64 = e.target.result.split(',')[1];
+    S.imgs[n-1] = { data: base64, mimeType: file.type, name: file.name };
+    const slot = document.getElementById('slot'+n+'-content');
+    slot.innerHTML = `
+      <img src="${e.target.result}" alt="ref">
+      <div class="img-slot-name">${file.name}</div>
+    `;
+    document.getElementById('slot'+n).classList.add('has-img');
+    const removeBtn = document.createElement('div');
+    removeBtn.className = 'img-remove';
+    removeBtn.textContent = '×';
+    removeBtn.onclick = (ev) => { ev.stopPropagation(); removeImg(n); };
+    document.getElementById('slot'+n).appendChild(removeBtn);
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeImg(n) {
+  S.imgs[n-1] = null;
+  document.getElementById('file'+n).value = '';
+  document.getElementById('slot'+n+'-content').innerHTML = `
+    <div class="img-slot-icon">+</div>
+    <div class="img-slot-label">Foto ${n}<br><span style="font-size:10px;opacity:.7">${n===1?'produto, ambiente ou pessoa':'composição ou cenário'}</span></div>
+  `;
+  document.getElementById('slot'+n).classList.remove('has-img');
+  const rm = document.getElementById('slot'+n).querySelector('.img-remove');
+  if (rm) rm.remove();
+}
+
+// NAV
+function nav(id, el) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
   document.getElementById('pg-'+id).classList.add('on');
   const ts={studio:'Studio de Criação',calendar:'Calendário de Posts',profiles:'Seus Perfis'};
@@ -534,28 +590,27 @@ function nav(id,el){
   if(id==='calendar')renderCal();
 }
 
-function selP(el){
+// PROFILE
+function selP(el) {
   document.querySelectorAll('.pc').forEach(c=>{
     const k=c.dataset.p;
-    c.className='pc p-'+k;
+    c.className='pc'+(k==='annes'?' pa':k==='ftec'?' pf':' pl');
+    c.className='pc';
   });
   const k=el.dataset.p;
-  el.className='pc p-'+k+' p-'+k;
+  el.className='pc '+(k==='annes'?'pa':k==='ftec'?'pf':'pl');
   S.p=k;
-  const btn=document.getElementById('gbtn');
-  btn.className='gb '+PR[k].btnCls;
+  document.getElementById('gbtn').className='gb '+PR[k].btnCls;
   renderSugs();
 }
-
 function selByKey(k){const e=document.querySelector('[data-p="'+k+'"]');if(e)selP(e);}
-
 function renderSugs(){
-  document.getElementById('sugs').innerHTML=(PR[S.p]?.sugs||[])
-    .map(x=>`<div class="sug" onclick="useSug('${x}')">${x}</div>`).join('');
+  document.getElementById('sugs').innerHTML=(PR[S.p]?.sugs||[]).map(x=>`<div class="sug" onclick="useSug('${x}')">${x}</div>`).join('');
 }
 function useSug(t){document.getElementById('prompt').value=t;uc(document.getElementById('prompt'));}
 renderSugs();
 
+// OPTIONS
 function tog(el,g){
   el.classList.toggle('s');
   const v=el.dataset.v;
@@ -563,31 +618,37 @@ function tog(el,g){
   else if(g==='fmt'){const i=S.fmts.indexOf(v);if(i>-1)S.fmts.splice(i,1);else S.fmts.push(v);}
   else if(g==='gen'){const i=S.gens.indexOf(v);if(i>-1)S.gens.splice(i,1);else S.gens.push(v);}
 }
-function sing(el){
-  el.parentElement.querySelectorAll('.op').forEach(p=>p.classList.remove('s'));
-  el.classList.add('s');S.tom=el.dataset.v;
-}
+function sing(el){el.parentElement.querySelectorAll('.op').forEach(p=>p.classList.remove('s'));el.classList.add('s');S.tom=el.dataset.v;}
 function uc(el){document.getElementById('cc').textContent=el.value.length+' / 400';}
 function clearF(){document.getElementById('prompt').value='';document.getElementById('extra').value='';uc(document.getElementById('prompt'));}
-function fillEx(){document.getElementById('prompt').value=EX[S.p]||EX.leudy;uc(document.getElementById('prompt'));}
 
-function st(id,el){
-  document.querySelectorAll('.ot').forEach(t=>t.classList.remove('on'));
-  document.querySelectorAll('.oc').forEach(c=>c.classList.remove('on'));
-  el.classList.add('on');document.getElementById('oc-'+id).classList.add('on');
+// TAB SWITCHING
+function switchTab(id, el) {
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('tab-'+id).classList.add('on');
 }
-function sv(el,i){
+
+function srt(id, el) {
+  document.querySelectorAll('.rt').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.rc').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('rc-'+id).classList.add('on');
+}
+
+function sv(el, i) {
   document.querySelectorAll('.vb').forEach(b=>b.classList.remove('on'));
-  el.classList.add('on');S.cv=i;
-  if(S.vers[i])renderV(S.vers[i]);
+  el.classList.add('on'); S.cv=i;
+  if(S.vers[i]) renderV(S.vers[i]);
 }
 
-function renderV(d){
-  if(!d)return;
-  const l=document.getElementById('leg-txt');l.textContent=d.legenda||'—';l.style.fontStyle='normal';l.style.color='var(--ink)';
+function renderV(d) {
+  if(!d) return;
+  document.getElementById('leg-txt').textContent=d.legenda||'—';
   document.getElementById('img-en').textContent=d.imgEn||'—';
   document.getElementById('img-pt').textContent=d.imgPt||'—';
-  const r=document.getElementById('rot-txt');r.textContent=d.roteiro||'—';r.style.fontStyle='normal';r.style.color='var(--ink)';
+  document.getElementById('rot-txt').textContent=d.roteiro||'—';
   const hc=document.getElementById('hcloud');hc.innerHTML='';
   (d.hashtags||[]).forEach(h=>{
     const p=document.createElement('div');p.className='hp';p.textContent=h;
@@ -596,63 +657,70 @@ function renderV(d){
   });
 }
 
-function shim(id){
+function shim(id) {
   const e=document.getElementById(id);if(!e)return;
   e.innerHTML='<div class="sw"><div class="sh sh1"></div><div class="sh sh2"></div><div class="sh sh3"></div><div class="sh sh4"></div></div>';
-  e.style.fontStyle='normal';e.style.color='var(--ink)';
 }
 
-async function gen(){
+// GENERATE
+async function gen() {
   const pr=document.getElementById('prompt').value.trim();
   if(!pr){toast('⚠️ Descreva o tema do post!');return;}
   const btn=document.getElementById('gbtn');
   btn.disabled=true;btn.textContent='⏳ Gerando...';
-  document.getElementById('err-box').innerHTML='';
+
+  // Switch to result tab and show loading
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('on'));
+  document.getElementById('result-tab-btn').classList.add('on');
+  document.getElementById('tab-result').classList.add('on');
+  document.getElementById('empty-result').style.display='none';
+  document.getElementById('result-content').style.display='block';
   shim('leg-txt');shim('img-en');shim('img-pt');shim('rot-txt');
   document.getElementById('hcloud').innerHTML='<div class="sw"><div class="sh sh2"></div></div>';
 
   const ex=document.getElementById('extra').value.trim();
-  const userPrompt=`TEMA: ${pr}${ex?'\nDETALHES EXTRAS: '+ex:''}
+  const images=S.imgs.filter(Boolean);
+
+  const userPrompt=`TEMA: ${pr}${ex?'\nDETALHES: '+ex:''}
 REDE SOCIAL: ${S.nets.join(', ')||'Instagram'}
 FORMATO: ${S.fmts.join(', ')||'Post'}
 TOM ADICIONAL: ${S.tom}
-GERAR: ${S.gens.join(', ')}
-Crie 3 versões diferentes e completas.`;
+${images.length>0?'ATENÇÃO: Analise as '+images.length+' imagem(ns) de referência enviadas e crie os prompts baseados nos elementos visuais REAIS que você ver nelas.':''}
+Gere 3 versões completas e diferentes.`;
 
-  try{
+  try {
+    const body={prompt:userPrompt, profile:S.p};
+    if(images.length>0) body.images=images.map(img=>({data:img.data,mimeType:img.mimeType}));
+
     const res=await fetch('/api/generate',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({prompt:userPrompt, profile:S.p})
+      body:JSON.stringify(body)
     });
     const data=await res.json();
+
     if(data.error){
-      document.getElementById('err-box').innerHTML=`<div class="err">❌ ${data.error}</div>`;
-      document.getElementById('leg-txt').textContent='Erro ao gerar. Verifique as configurações.';
-      document.getElementById('leg-txt').style.color='var(--ink3)';
+      document.getElementById('leg-txt').innerHTML=`<div class="err">❌ ${data.error}</div>`;
     } else {
       S.vers=data.versoes||[];
       document.querySelectorAll('.vb').forEach((b,i)=>b.classList.toggle('on',i===0));
       S.cv=0;if(S.vers[0])renderV(S.vers[0]);
       S.cg++;document.getElementById('cnt-g').textContent=S.cg;
-      toast('✅ Conteúdo gerado com sucesso!');
+      toast('✅ Conteúdo gerado! '+images.length>0?'📸 Fotos analisadas!':'');
     }
-  }catch(e){
-    document.getElementById('err-box').innerHTML=`<div class="err">❌ Erro de conexão. Verifique se o sistema está publicado no Vercel corretamente.<br><small>${e.message}</small></div>`;
-    document.getElementById('leg-txt').textContent='Erro de conexão.';
+  } catch(e) {
+    document.getElementById('leg-txt').innerHTML=`<div class="err">❌ Erro: ${e.message}</div>`;
   }
-  btn.disabled=false;
-  btn.textContent='✨ Gerar Novamente';
+  btn.disabled=false;btn.textContent='✨ Gerar Conteúdo';
 }
 
+// COPY
 function cp(id){const t=document.getElementById(id)?.textContent?.trim();if(!t||t==='—')return;navigator.clipboard.writeText(t);toast('✓ Copiado!');}
 function cpAll(){const t=Array.from(document.querySelectorAll('.hp')).map(p=>p.textContent).join(' ');navigator.clipboard.writeText(t);toast('✓ Hashtags copiadas!');}
 
-function agBtn(){
-  document.getElementById('m-date').value=new Date().toISOString().split('T')[0];
-  document.getElementById('m-note').value='';
-  document.getElementById('modal').classList.add('open');
-}
+// SCHEDULE
+function agBtn(){document.getElementById('m-date').value=new Date().toISOString().split('T')[0];document.getElementById('m-note').value='';document.getElementById('modal').classList.add('open');}
 function closeM(){document.getElementById('modal').classList.remove('open');}
 function confSch(){
   const dt=document.getElementById('m-date').value,ti=document.getElementById('m-time').value;
@@ -660,28 +728,25 @@ function confSch(){
   if(!dt){toast('⚠️ Selecione uma data');return;}
   S.evs.push({date:dt,time:ti,note:nt,p:S.p});
   S.cs++;document.getElementById('cnt-s').textContent=S.cs;
-  closeM();toast('📅 Agendado para '+dt+' às '+ti);renderCal();
+  closeM();toast('📅 Agendado para '+dt);renderCal();
 }
 document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeM();});
 
+// CALENDAR
 function renderCal(){
   const el=document.getElementById('cal-g');if(!el)return;el.innerHTML='';
   const y=S.cm.getFullYear(),m=S.cm.getMonth(),td=new Date();
   const ms=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
   document.getElementById('cal-lbl').textContent=ms[m]+' '+y;
   const fd=new Date(y,m,1).getDay(),dim=new Date(y,m+1,0).getDate(),pd=new Date(y,m,0).getDate();
-  for(let i=0;i<fd;i++){
-    const c=document.createElement('div');c.className='cc2 om';
-    c.innerHTML=`<div class="cdn">${pd-fd+1+i}</div>`;el.appendChild(c);
-  }
+  for(let i=0;i<fd;i++){const c=document.createElement('div');c.className='cc2 om';c.innerHTML=`<div class="cdn">${pd-fd+1+i}</div>`;el.appendChild(c);}
   for(let d=1;d<=dim;d++){
     const c=document.createElement('div');
     const isTod=d===td.getDate()&&m===td.getMonth()&&y===td.getFullYear();
     c.className='cc2'+(isTod?' tod':'');
     const ds=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
     const evs=S.evs.filter(e=>e.date===ds);
-    c.innerHTML=`<div class="cdn">${d}</div>`+
-      evs.map(e=>`<div class="cev ${PR[e.p]?.ec||''}">${PR[e.p]?.em} ${e.note.substring(0,11)}${e.note.length>11?'…':''}</div>`).join('');
+    c.innerHTML=`<div class="cdn">${d}</div>`+evs.map(e=>`<div class="cev ${PR[e.p]?.ec||''}">${PR[e.p]?.em} ${e.note.substring(0,11)}${e.note.length>11?'…':''}</div>`).join('');
     c.onclick=()=>{document.getElementById('m-date').value=ds;nav('studio',null);toast('📅 Data '+d+'/'+(m+1)+' selecionada');};
     el.appendChild(c);
   }
