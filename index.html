@@ -700,7 +700,7 @@ const res=await fetch('/api/generate',{signal: controller.signal,
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify(body)
     });
-    const data=await res.json();
+    const data=await res.json();clearTimeout(timeout);
 
     if(data.error){
       document.getElementById('leg-txt').innerHTML=`<div class="err">❌ ${data.error}</div>`;
