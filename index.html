@@ -693,7 +693,9 @@ Gere 3 versões completas e diferentes.`;
     const body={prompt:userPrompt, profile:S.p};
     if(images.length>0) body.images=images.map(img=>({data:img.data,mimeType:img.mimeType}));
 
-    const res=await fetch('/api/generate',{
+    const controller = new AbortController();
+const timeout = setTimeout(() => controller.abort(), 25000);
+const res=await fetch('/api/generate',{signal: controller.signal,
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify(body)
