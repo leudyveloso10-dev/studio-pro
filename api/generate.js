@@ -53,9 +53,23 @@ if (!jsonMatch) {
 
     try {
       const parsed = JSON.parse(jsonMatch[0]);
-      return res.status(200).json({ versoes: parsed.versoes || parsed.versões || [] });
+      const versoes = parsed.versoes || parsed.versões || [];
+      if (versoes.length === 0) return res.status(200).json({ error: 'Nenhuma versão gerada. Tente novamente.' });
+      return res.status(200).json({ versoes });
     } catch(e) {
-      return res.status(200).json({ error: 'Erro ao processar. Tente novamente.' });
+      // Try to fix common JSON issues
+      try {
+        const fixed = jsonMatch[0]
+          .replace(/,\s*}/g, '}')
+          .replace(/,\s*]/g, ']')
+          .replace(/\n/g, ' ')
+          .replace(/\t/g, ' ');
+        const parsed = JSON.parse(fixed);
+        const versoes = parsed.versoes || parsed.versões || [];
+        return res.status(200).json({ versoes });
+      } catch(e2) {
+        return res.status(200).json({ error: 'Erro ao processar JSON: ' + e2.message });
+      }
     }
   } catch (err) { return res.status(500).json({ error: err.message }); }
 }
