@@ -46,7 +46,10 @@ export default async function handler(req, res) {
 
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
     const jsonMatch = text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) return res.status(200).json({ error: 'Resposta sem JSON. Tente novamente.' });
+if (!jsonMatch) {
+  // Try again with stricter prompt
+  return res.status(200).json({ error: 'Resposta sem JSON: ' + text.substring(0, 150) });
+}
 
     try {
       const parsed = JSON.parse(jsonMatch[0]);
