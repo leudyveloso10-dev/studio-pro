@@ -95,7 +95,7 @@ textarea::placeholder{color:var(--ink3);}
 .gb{width:100%;padding:14px;border-radius:14px;border:none;font-family:'Playfair Display',serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;color:white;background:var(--ink);}
 .gb:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.14);}
 .gb:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
-.gb.annes-btn{background:#F7C948;color:#1B2E4B;}
+.gb.annes-btn{background:var(--annes);color:var(--annes-dark);}
 .gb.ftec-btn{background:var(--ftec-main);}
 .gb.leudy-btn{background:var(--leudy-main);}
 .img-upload-row{display:flex;gap:10px;margin-bottom:14px;}
@@ -317,14 +317,14 @@ textarea::placeholder{color:var(--ink3);}
 
           <label class="fl">📸 Fotos de referência (opcional)</label>
           <div class="img-upload-row">
-            <div class="img-slot" id="slot1" onclick="document.getElementById('file1').click()">
-              <input type="file" id="file1" accept="image/*" style="display:none" onchange="handleImg(1,this,event)">
+            <label class="img-slot" id="slot1" for="file1">
+              <input type="file" id="file1" accept="image/*" style="display:none" onchange="handleImg(1,this)">
               <div id="s1c"><div class="img-slot-icon">+</div><div class="img-slot-label">Foto 1<br>produto / ambiente</div></div>
-            </div>
-            <div class="img-slot" id="slot2" onclick="document.getElementById('file2').click()">
-              <input type="file" id="file2" accept="image/*" style="display:none" onchange="handleImg(2,this,event)">
+            </label>
+            <label class="img-slot" id="slot2" for="file2">
+              <input type="file" id="file2" accept="image/*" style="display:none" onchange="handleImg(2,this)">
               <div id="s2c"><div class="img-slot-icon">+</div><div class="img-slot-label">Foto 2<br>pessoa / cenário</div></div>
-            </div>
+            </label>
           </div>
           <p style="font-size:11px;color:var(--ink3);margin-bottom:14px;">O Gemini analisa as fotos e cria prompts fiéis aos seus produtos reais</p>
 
@@ -561,25 +561,7 @@ function handleImg(n,input){
     rm.onclick=(ev)=>{ev.stopPropagation();removeImg(n);};
     document.getElementById('slot'+n).appendChild(rm);
   };
-  const canvas = document.createElement('canvas');
-const imgEl = new Image();
-imgEl.onload = () => {
-  const maxW = 800;
-  const scale = Math.min(1, maxW / imgEl.width);
-  canvas.width = imgEl.width * scale;
-  canvas.height = imgEl.height * scale;
-  canvas.getContext('2d').drawImage(imgEl, 0, 0, canvas.width, canvas.height);
-  const compressed = canvas.toDataURL('image/jpeg', 0.6);
-  const b64 = compressed.split(',')[1];
-  S.imgs[n-1] = {data: b64, mimeType: 'image/jpeg', name: file.name};
-  const sc = document.getElementById('s'+n+'c');
-  sc.innerHTML = `<img src="${compressed}" style="width:100%;height:70px;object-fit:cover;border-radius:8px;margin-bottom:4px;"><div class="img-slot-name">${file.name}</div>`;
-  document.getElementById('slot'+n).classList.add('filled');
-  const rm = document.createElement('div'); rm.className='img-remove'; rm.textContent='×';
-  rm.onclick = (ev) => {ev.stopPropagation(); removeImg(n);};
-  document.getElementById('slot'+n).appendChild(rm);
-};
-imgEl.src = e.target.result;
+  reader.readAsDataURL(file);
 }
 function removeImg(n){
   S.imgs[n-1]=null;
