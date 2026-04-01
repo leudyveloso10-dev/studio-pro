@@ -6,25 +6,44 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const geminiKey = process.env.GEMINI_API_KEY;
-  const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
-  const cloudKey = process.env.CLOUDINARY_API_KEY;
-  const cloudSecret = process.env.CLOUDINARY_API_SECRET;
-
   if (!geminiKey) return res.status(500).json({ error: 'GEMINI_API_KEY não configurada.' });
 
   try {
     const { prompt, profile, imageUrls } = req.body;
     if (!prompt) return res.status(400).json({ error: 'Prompt obrigatório.' });
 
-    const systemPrompt = buildSystemPrompt(profile);
-    const parts = [{ text: systemPrompt + '\n\n' + prompt }];
-
+    // PASSO 1: Se tem imagens, descreve elas rapidamente (chamada separada e rápida)
+    let imageDescription = '';
     if (imageUrls && imageUrls.length > 0) {
-      parts.push({ text: `\nAnalise as imagens de referência e use os elementos visuais REAIS (produtos, pessoas, cores, texturas, ambiente) para criar os prompts de imagem fielmente.` });
-      for (const url of imageUrls) {
-        parts.push({ file_data: { file_uri: url, mime_type: 'image/jpeg' } });
+      try {
+        const descParts = [
+          { text: 'Descreva em detalhes o que você vê nestas imagens: produtos, pessoas, cores, texturas, iluminação, ambiente, estilo visual. Seja específico e objetivo. Responda em português em no máximo 200 palavras.' }
+        ];
+        for (const url of imageUrls) {
+          descParts.push({ file_data: { file_uri: url, mime_type: 'image/jpeg' } });
+        }
+        const descResp = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: descParts }],
+              generationConfig: { temperature: 0.3, maxOutputTokens: 300 }
+            })
+          }
+        );
+        const descData = await descResp.json();
+        imageDescription = descData.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      } catch(e) {
+        imageDescription = '';
       }
     }
+
+    // PASSO 2: Gera o conteúdo com a descrição das imagens incluída no prompt
+    const systemPrompt = buildSystemPrompt(profile);
+    const fullPrompt = systemPrompt + '\n\n' + prompt +
+      (imageDescription ? '\n\nDESCRIÇÃO DAS FOTOS DE REFERÊNCIA ENVIADAS:\n' + imageDescription + '\n\nUse esta descrição para criar prompts de imagem FIÉIS ao que foi descrito acima.' : '');
 
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`,
@@ -32,8 +51,8 @@ export default async function handler(req, res) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [{ parts }],
-          generationConfig: { temperature: 0.8, maxOutputTokens: 8192 }
+          contents: [{ parts: [{ text: fullPrompt }] }],
+          generationConfig: { temperature: 0.8, maxOutputTokens: 6000 }
         })
       }
     );
@@ -50,37 +69,18 @@ export default async function handler(req, res) {
       const versoes = parsed.versoes || parsed.versões || [];
       return res.status(200).json({ versoes });
     } catch(e) {
-      return res.status(200).json({ error: 'Erro ao processar. Tente novamente.' });
+      try {
+        const fixed = jsonMatch[0].replace(/,\s*}/g, '}').replace(/,\s*]/g, ']');
+        const parsed = JSON.parse(fixed);
+        return res.status(200).json({ versoes: parsed.versoes || parsed.versões || [] });
+      } catch(e2) {
+        return res.status(200).json({ error: 'Erro ao processar. Tente novamente.' });
+      }
     }
 
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
-}
-
-async function uploadToCloudinary(img, cloudName, apiKey, apiSecret) {
-  const timestamp = Math.round(Date.now() / 1000);
-  const str = `folder=studio-pro&timestamp=${timestamp}${apiSecret}`;
-  const msgBuffer = new TextEncoder().encode(str);
-  const hashBuffer = await crypto.subtle.digest('SHA-1', msgBuffer);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const signature = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-
-  const formData = new URLSearchParams();
-  formData.append('file', `data:${img.mimeType};base64,${img.data}`);
-  formData.append('api_key', apiKey);
-  formData.append('timestamp', timestamp.toString());
-  formData.append('signature', signature);
-  formData.append('folder', 'studio-pro');
-
-  const response = await fetch(
-    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-    { method: 'POST', body: formData }
-  );
-
-  const result = await response.json();
-  if (!response.ok) throw new Error(result.error?.message || 'Cloudinary error');
-  return result.secure_url;
 }
 
 function buildSystemPrompt(profile) {
@@ -121,7 +121,6 @@ SÍMBOLO: ${p.simbolo}
 HASHTAGS BASE: ${p.hashtags}
 
 Responda APENAS com JSON puro válido, sem markdown.
-Se houver imagens de referência, analise e descreva os produtos/pessoas/ambiente REAIS nos prompts.
 
 {"versoes":[{"legenda":"legenda completa com emojis e CTA (min 120 palavras)","imgEn":"detailed English image prompt","imgPt":"prompt detalhado em português","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"],"roteiro":"roteiro 30s Reels com cenas numeradas"},{"legenda":"segunda versão","imgEn":"...","imgPt":"...","hashtags":["#tag1"],"roteiro":"..."},{"legenda":"terceira versão","imgEn":"...","imgPt":"...","hashtags":["#tag1"],"roteiro":"..."}]}`;
 }
