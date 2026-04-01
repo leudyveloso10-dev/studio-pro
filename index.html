@@ -550,29 +550,31 @@ const S = {
 function triggerImg(n){document.getElementById('file'+n).click();}
 function handleImg(n,input){
   const file=input.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=(e)=>{
-    const imgEl=new Image();
-    imgEl.onload=()=>{
-      const canvas=document.createElement('canvas');
-      const maxW=400;
-      const scale=Math.min(1,maxW/imgEl.width);
-      canvas.width=imgEl.width*scale;
-      canvas.height=imgEl.height*scale;
-      canvas.getContext('2d').drawImage(imgEl,0,0,canvas.width,canvas.height);
-      const compressed=canvas.toDataURL('image/jpeg',0.3);
-      const b64=compressed.split(',')[1];
-      S.imgs[n-1]={data:b64,mimeType:'image/jpeg',name:file.name};
-      const sc=document.getElementById('s'+n+'c');
-      sc.innerHTML=`<img src="${compressed}" style="width:100%;height:70px;object-fit:cover;border-radius:8px;margin-bottom:4px;"><div class="img-slot-name">${file.name}</div>`;
+  const sc=document.getElementById('s'+n+'c');
+  sc.innerHTML=`<div class="img-slot-icon">⏳</div><div class="img-slot-label">Enviando...</div>`;
+  const formData=new FormData();
+  formData.append('file',file);
+  formData.append('upload_preset','studio_pro_unsigned');
+  formData.append('folder','studio-pro');
+  fetch('https://api.cloudinary.com/v1_1/dui9bw3qp/image/upload',{method:'POST',body:formData})
+  .then(r=>r.json())
+  .then(data=>{
+    if(data.secure_url){
+      S.imgs[n-1]={url:data.secure_url,name:file.name};
+      sc.innerHTML=`<img src="${data.secure_url}" style="width:100%;height:70px;object-fit:cover;border-radius:8px;margin-bottom:4px;"><div class="img-slot-name">${file.name}</div>`;
       document.getElementById('slot'+n).classList.add('filled');
       const rm=document.createElement('div');rm.className='img-remove';rm.textContent='×';
       rm.onclick=(ev)=>{ev.stopPropagation();removeImg(n);};
       document.getElementById('slot'+n).appendChild(rm);
-    };
-    imgEl.src=e.target.result;
-  };
-  reader.readAsDataURL(file);
+    } else {
+      sc.innerHTML=`<div class="img-slot-icon">+</div><div class="img-slot-label">Erro. Tente novamente</div>`;
+      S.imgs[n-1]=null;
+    }
+  })
+  .catch(()=>{
+    sc.innerHTML=`<div class="img-slot-icon">+</div><div class="img-slot-label">Erro. Tente novamente</div>`;
+    S.imgs[n-1]=null;
+  });
 }
 function removeImg(n){
   S.imgs[n-1]=null;
@@ -680,7 +682,7 @@ Crie 3 versões diferentes e completas.`;
   try{
     const body={prompt:userPrompt, profile:S.p};
     if(S.imgs && S.imgs.filter(Boolean).length>0){
-      body.images=S.imgs.filter(Boolean).map(img=>({data:img.data,mimeType:img.mimeType}));
+      body.imageUrls=S.imgs.filter(Boolean).map(img=>img.url);
     }
     const res=await fetch('/api/generate',{
       method:'POST',
