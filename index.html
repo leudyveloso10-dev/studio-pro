@@ -48,7 +48,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;min-h
 .page.on{display:flex;flex-direction:column;}
 
 /* ── STUDIO ── */
-.studio{display:grid;grid-template-columns:195px 225px 1fr;flex:1;min-height:0;overflow:hidden;}
+.studio{display:grid;grid-template-columns:220px 320px 1fr;flex:1;min-height:0;overflow:hidden;}
 .pnl{border-right:1px solid var(--border);overflow-y:auto;padding:20px 16px;}
 .pnl:last-child{border-right:none;}
 .pt{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:12px;margin-top:4px;}
@@ -130,7 +130,7 @@ textarea::placeholder{color:var(--ink3);}
 .ob-l{font-size:10px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;}
 .cb{padding:4px 10px;border-radius:6px;border:1px solid var(--border2);background:var(--white);font-size:11px;cursor:pointer;color:var(--ink2);transition:all .18s;font-family:'Outfit',sans-serif;}
 .cb:hover{background:var(--ink);color:white;border-color:var(--ink);}
-.ob-b{padding:18px;font-size:13px;line-height:2;color:var(--ink);white-space:pre-wrap;}
+.ob-b{padding:18px;font-size:13.5px;line-height:2;color:var(--ink);white-space:pre-wrap;}
 .ob-b.code{font-family:monospace;font-size:11px;color:#185fa5;background:#f0f4ff;}
 
 /* ── HASHTAGS ── */
@@ -216,17 +216,10 @@ textarea::placeholder{color:var(--ink3);}
 .err{background:#fdf0f0;border:1px solid #f5c0c0;border-radius:10px;padding:12px 14px;font-size:12px;color:#8b0000;line-height:1.6;margin-bottom:10px;}
 
 
-/* Profile accent bar */
-.accent-bar{height:3px;width:100%;transition:background .3s;}
+.accent-bar{height:3px;width:100%;}
 .accent-annes{background:linear-gradient(90deg,#F7C948,#3DBFA8);}
 .accent-ftec{background:linear-gradient(90deg,#0d1f2d,#c9a84c);}
 .accent-leudy{background:linear-gradient(90deg,#8b0000,#c9a84c);}
-/* Bigger version buttons */
-.vb{padding:5px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);font-size:11px;font-weight:500;cursor:pointer;color:var(--ink2);transition:all .18s;}
-.vb.on{background:var(--ink);color:white;border-color:var(--ink);}
-/* Output title row */
-.out-title-row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 0;}
-.out-title{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;}
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
 </style>
@@ -327,7 +320,7 @@ textarea::placeholder{color:var(--ink3);}
             <textarea id="extra" rows="2" maxlength="150" placeholder="Ex: mencionar promoção especial, evento, lançamento..."></textarea>
           </div>
 
-                    <button class="gb" id="gbtn" onclick="gen()">✨ Gerar Conteúdo</button>
+          <button class="gb" id="gbtn" onclick="gen()">✨ Gerar Conteúdo</button>
 
           <div style="margin-top:18px">
             <label class="fl">Sugestões de tema</label>
@@ -343,7 +336,6 @@ textarea::placeholder{color:var(--ink3);}
         <!-- OUTPUT -->
         <div class="op-pnl">
           <div class="accent-bar" id="accent-bar"></div>
-          <div class="out-title-row"><div class="out-title">Conteúdo Gerado</div></div>
           <div class="pt">Conteúdo Gerado</div>
           <div class="vr">
             <button class="vb on" onclick="sv(this,0)">V1</button>
@@ -520,7 +512,7 @@ textarea::placeholder{color:var(--ink3);}
 const PR = {
   annes:{
     name:"Anne's Confeitaria", em:'🐝', ec:'ev-annes',
-    color:'var(--annes-dark)', btnCls:'annes-btn', accent:'annes',
+    color:'var(--annes-dark)', btnCls:'annes-btn',
     sugs:['Kit festa corporativo especial','Bolo personalizado do mês','Bastidores da produção','Promoção de encomendas','Salgados para eventos','Doces finos artesanais']
   },
   ftec:{
@@ -605,7 +597,7 @@ function selP(el){
   S.p=k;
   const btn=document.getElementById('gbtn');
   btn.className='gb '+PR[k].btnCls;
-  const ab=document.getElementById('accent-bar');if(ab)ab.className='accent-bar accent-'+k;
+  const ab=document.getElementById('accent-bar');if(ab){ab.className='accent-bar accent-'+k;}
   renderSugs();
 }
 
