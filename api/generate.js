@@ -111,5 +111,5 @@ HASHTAGS BASE: ${p.hashtags}
 Responda APENAS com JSON puro válido, sem markdown.
 Se houver imagens de referência, analise e descreva os elementos REAIS nos prompts.
 
-{"versoes":[{"legenda":"legenda completa com emojis e CTA (min 120 palavras)","imgEn":"detailed English image prompt","imgPt":"prompt detalhado em português","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"],"roteiro":"roteiro 30s Reels com cenas numeradas"},{"legenda":"segunda versão","imgEn":"...","imgPt":"...","hashtags":["#tag1"],"roteiro":"..."},{"legenda":"terceira versão","imgEn":"...","imgPt":"...","hashtags":["#tag1"],"roteiro":"..."}]}`;
+{"versoes":[{"legenda":"legenda completa com emojis e CTA","imgEn":"English image prompt","imgPt":"prompt em português","hashtags":["#tag1","#tag2","#tag3"],"roteiro":"roteiro Reels"},{"legenda":"segunda versão","imgEn":"prompt","imgPt":"prompt","hashtags":["#tag1"],"roteiro":"roteiro"},{"legenda":"terceira versão","imgEn":"prompt","imgPt":"prompt","hashtags":["#tag1"],"roteiro":"roteiro"}]}`;
 }
