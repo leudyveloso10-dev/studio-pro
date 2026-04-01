@@ -318,11 +318,11 @@ textarea::placeholder{color:var(--ink3);}
           <label class="fl">📸 Fotos de referência (opcional)</label>
           <div class="img-upload-row">
             <div class="img-slot" id="slot1" onclick="document.getElementById('file1').click()">
-              <input type="file" id="file1" accept="image/*" style="display:none" onchange="handleImg(1,this)">
+              <input type="file" id="file1" accept="image/*" style="display:none" onchange="handleImg(1,this,event)">
               <div id="s1c"><div class="img-slot-icon">+</div><div class="img-slot-label">Foto 1<br>produto / ambiente</div></div>
             </div>
             <div class="img-slot" id="slot2" onclick="document.getElementById('file2').click()">
-              <input type="file" id="file2" accept="image/*" style="display:none" onchange="handleImg(2,this)">
+              <input type="file" id="file2" accept="image/*" style="display:none" onchange="handleImg(2,this,event)">
               <div id="s2c"><div class="img-slot-icon">+</div><div class="img-slot-label">Foto 2<br>pessoa / cenário</div></div>
             </div>
           </div>
