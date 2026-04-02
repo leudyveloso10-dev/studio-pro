@@ -54,7 +54,7 @@ export default async function handler(req, res) {
           contents: [{ parts: [{ text: fullPrompt }] }],
           generationConfig: {
             temperature: 0.8,
-            maxOutputTokens: 5000,
+            maxOutputTokens: 2000,
             responseMimeType: "application/json"
           }
         })
@@ -202,6 +202,6 @@ REGRAS CRÍTICAS:
 - Não deixe vírgulas no final de objetos ou arrays
 - Feche TODAS as chaves e colchetes corretamente
 
-FORMATO EXATO (2 versões):
-{"versoes":[{"legenda":"legenda com emojis e CTA (60 a 80 palavras)","imgEn":"English image prompt (max 2 sentences)","imgPt":"prompt de imagem em português (max 2 frases)","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"],"roteiro":"roteiro Reels 30s com 3 cenas numeradas"},{"legenda":"segunda versão diferente (60 a 80 palavras)","imgEn":"...","imgPt":"...","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"],"roteiro":"..."}]}`;
+FORMATO EXATO — responda APENAS com este JSON, 2 versões:
+{"versoes":[{"legenda":"legenda com emojis e CTA (60 a 80 palavras)","imgEn":"image prompt in English (1 sentence)","imgPt":"prompt de imagem em português (1 frase)","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"],"roteiro":"Cena 1: X | Cena 2: Y | Cena 3: Z"},{"legenda":"segunda versão diferente (60 a 80 palavras)","imgEn":"...","imgPt":"...","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"],"roteiro":"Cena 1: X | Cena 2: Y | Cena 3: Z"}]}`;
 }
