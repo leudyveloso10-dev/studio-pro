@@ -52,7 +52,11 @@ export default async function handler(req, res) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ parts: [{ text: fullPrompt }] }],
-          generationConfig: { temperature: 0.8, maxOutputTokens: 3000 }
+          generationConfig: {
+            temperature: 0.8,
+            maxOutputTokens: 3000,
+            responseMimeType: "application/json"
+          }
         })
       }
     );
@@ -71,7 +75,11 @@ export default async function handler(req, res) {
 
     const parsed = extractJSON(rawText);
     if (!parsed) {
-      return res.status(200).json({ error: 'Erro ao processar resposta. Tente novamente.' });
+      // Devolve os primeiros 300 chars da resposta para diagnóstico
+      return res.status(200).json({
+        error: 'Erro ao processar resposta. Tente novamente.',
+        _raw: rawText.substring(0, 300)
+      });
     }
 
     const versoes = parsed.versoes || parsed.versões || [];
