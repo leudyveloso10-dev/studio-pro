@@ -55,9 +55,9 @@ export default async function handler(req, res) {
           generationConfig: {
             temperature: 0.8,
             maxOutputTokens: 2000,
-            responseMimeType: "application/json"
-          },
-          thinkingConfig: { thinkingBudget: 0 }
+            responseMimeType: "application/json",
+            thinkingConfig: { thinkingBudget: 0 }
+          }
         })
       }
     );
@@ -76,10 +76,11 @@ export default async function handler(req, res) {
 
     const parsed = extractJSON(rawText);
     if (!parsed) {
-      // Devolve os primeiros 300 chars da resposta para diagnóstico
       return res.status(200).json({
         error: 'Erro ao processar resposta. Tente novamente.',
-        _raw: rawText.substring(0, 300)
+        _raw: rawText,
+        _len: rawText.length,
+        _finishReason: data.candidates?.[0]?.finishReason || 'unknown'
       });
     }
 
