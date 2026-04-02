@@ -1126,7 +1126,8 @@ Crie 3 versões diferentes e completas.`;
       return;
     }
     if(data.error){
-      document.getElementById('err-box').innerHTML=`<div class="err">❌ ${data.error}${data._raw ? '<br><small style="opacity:.6;word-break:break-all">Raw: '+data._raw+'</small>' : ''}</div>`;
+      const debugInfo = data._finishReason ? ` | finishReason: ${data._finishReason} | chars: ${data._len}` : '';
+      document.getElementById('err-box').innerHTML=`<div class="err">❌ ${data.error}${debugInfo}${data._raw ? '<br><small style="opacity:.6;word-break:break-all;font-size:10px">Raw: '+data._raw+'</small>' : ''}</div>`;
       document.getElementById('leg-txt').textContent='Erro ao gerar. Verifique as configurações.';
       document.getElementById('leg-txt').style.color='var(--ink3)';
     } else {
