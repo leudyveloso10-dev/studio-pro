@@ -54,7 +54,7 @@ export default async function handler(req, res) {
           contents: [{ parts: [{ text: fullPrompt }] }],
           generationConfig: {
             temperature: 0.8,
-            maxOutputTokens: 3000,
+            maxOutputTokens: 5000,
             responseMimeType: "application/json"
           }
         })
@@ -203,5 +203,5 @@ REGRAS CRÍTICAS:
 - Feche TODAS as chaves e colchetes corretamente
 
 FORMATO EXATO (2 versões):
-{"versoes":[{"legenda":"legenda completa com emojis e CTA (min 100 palavras)","imgEn":"detailed English image prompt for AI generation","imgPt":"prompt detalhado em português para geração de imagem","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"],"roteiro":"roteiro 30s Reels com cenas numeradas"},{"legenda":"segunda versão diferente da primeira","imgEn":"...","imgPt":"...","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"],"roteiro":"..."}]}`;
+{"versoes":[{"legenda":"legenda com emojis e CTA (60 a 80 palavras)","imgEn":"English image prompt (max 2 sentences)","imgPt":"prompt de imagem em português (max 2 frases)","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"],"roteiro":"roteiro Reels 30s com 3 cenas numeradas"},{"legenda":"segunda versão diferente (60 a 80 palavras)","imgEn":"...","imgPt":"...","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"],"roteiro":"..."}]}`;
 }
