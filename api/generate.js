@@ -56,7 +56,8 @@ export default async function handler(req, res) {
             temperature: 0.8,
             maxOutputTokens: 2000,
             responseMimeType: "application/json"
-          }
+          },
+          thinkingConfig: { thinkingBudget: 0 }
         })
       }
     );
