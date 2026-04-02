@@ -23,7 +23,7 @@ export default async function handler(req, res) {
           descParts.push({ file_data: { file_uri: url, mime_type: 'image/jpeg' } });
         }
         const descResp = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`,
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -40,112 +40,78 @@ export default async function handler(req, res) {
       }
     }
 
-    // PASSO 2: Gera conteúdo com retry automático
+    // PASSO 2: Gera conteúdo — chamada única, sem retry (evita timeout Vercel free)
     const systemPrompt = buildSystemPrompt(profile);
     const fullPrompt = systemPrompt + '\n\n' + prompt +
       (imageDescription ? '\n\nDESCRIÇÃO DAS FOTOS DE REFERÊNCIA ENVIADAS:\n' + imageDescription + '\n\nUse esta descrição para criar prompts de imagem FIÉIS ao que foi descrito acima.' : '');
 
-    const MAX_ATTEMPTS = 3;
-    let lastError = null;
-
-    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-      try {
-        const response = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: fullPrompt }] }],
-              generationConfig: {
-                temperature: attempt === 1 ? 0.8 : 0.6, // reduz temperatura no retry
-                maxOutputTokens: 4500
-              }
-            })
-          }
-        );
-
-        if (!response.ok) {
-          const errData = await response.json();
-          lastError = errData.error?.message || `HTTP ${response.status}`;
-          continue; // tenta de novo
-        }
-
-        const data = await response.json();
-        const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-
-        if (!rawText) {
-          lastError = 'Resposta vazia do modelo.';
-          continue;
-        }
-
-        // Tenta extrair e parsear o JSON com múltiplas estratégias
-        const parsed = extractJSON(rawText);
-        if (parsed) {
-          const versoes = parsed.versoes || parsed.versões || [];
-          if (versoes.length > 0) {
-            return res.status(200).json({ versoes });
-          }
-          lastError = 'JSON válido mas sem versões. Tentando novamente...';
-          continue;
-        }
-
-        lastError = 'Não foi possível extrair JSON da resposta.';
-        // Se última tentativa, devolve o texto cru para debug
-        if (attempt === MAX_ATTEMPTS) {
-          return res.status(200).json({
-            error: 'Erro ao processar resposta após ' + MAX_ATTEMPTS + ' tentativas. Tente novamente.',
-            debug: rawText.substring(0, 200)
-          });
-        }
-
-      } catch(err) {
-        lastError = err.message;
-        if (attempt === MAX_ATTEMPTS) throw err;
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: fullPrompt }] }],
+          generationConfig: { temperature: 0.8, maxOutputTokens: 3000 }
+        })
       }
+    );
+
+    if (!response.ok) {
+      const errData = await response.json();
+      return res.status(response.status).json({ error: errData.error?.message || 'Erro Gemini' });
     }
 
-    return res.status(200).json({ error: lastError || 'Erro desconhecido. Tente novamente.' });
+    const data = await response.json();
+    const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+    if (!rawText) {
+      return res.status(200).json({ error: 'Resposta vazia do modelo. Tente novamente.' });
+    }
+
+    const parsed = extractJSON(rawText);
+    if (!parsed) {
+      return res.status(200).json({ error: 'Erro ao processar resposta. Tente novamente.' });
+    }
+
+    const versoes = parsed.versoes || parsed.versões || [];
+    if (versoes.length === 0) {
+      return res.status(200).json({ error: 'Nenhuma versão gerada. Tente novamente.' });
+    }
+
+    return res.status(200).json({ versoes });
 
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
 }
 
-/**
- * Tenta extrair JSON válido do texto com múltiplas estratégias:
- * 1. Bloco ```json ... ```
- * 2. Primeiro { ... } no texto
- * 3. Texto inteiro limpo
- * 4. Reparo de JSON quebrado (vírgulas extras, aspas, etc.)
- */
+// ── Extrai JSON com 4 estratégias progressivas ──
 function extractJSON(text) {
-  // Remove espaços e quebras desnecessárias no início/fim
   const clean = text.trim();
 
-  // Estratégia 1: bloco ```json ... ```
+  // 1. Bloco ```json ... ```
   const mdMatch = clean.match(/```(?:json)?\s*([\s\S]*?)```/);
   if (mdMatch) {
-    const result = tryParse(mdMatch[1].trim());
-    if (result) return result;
+    const r = tryParse(mdMatch[1].trim());
+    if (r) return r;
   }
 
-  // Estratégia 2: encontrar o primeiro { balanceado
-  const jsonMatch = findBalancedJSON(clean);
-  if (jsonMatch) {
-    const result = tryParse(jsonMatch);
-    if (result) return result;
+  // 2. Primeiro objeto { } balanceado
+  const balanced = findBalancedJSON(clean);
+  if (balanced) {
+    const r = tryParse(balanced);
+    if (r) return r;
   }
 
-  // Estratégia 3: tentar parsear o texto inteiro
-  const result3 = tryParse(clean);
-  if (result3) return result3;
+  // 3. Texto inteiro
+  const r3 = tryParse(clean);
+  if (r3) return r3;
 
-  // Estratégia 4: reparar JSON comum e tentar novamente
-  if (jsonMatch) {
-    const repaired = repairJSON(jsonMatch);
-    const result4 = tryParse(repaired);
-    if (result4) return result4;
+  // 4. Reparar e tentar novamente
+  if (balanced) {
+    const r4 = tryParse(repairJSON(balanced));
+    if (r4) return r4;
   }
 
   return null;
@@ -153,44 +119,35 @@ function extractJSON(text) {
 
 function tryParse(str) {
   try {
-    const parsed = JSON.parse(str);
-    if (typeof parsed === 'object' && parsed !== null) return parsed;
+    const p = JSON.parse(str);
+    if (typeof p === 'object' && p !== null) return p;
   } catch(e) {}
   return null;
 }
 
-// Encontra o objeto JSON principal balanceando chaves
 function findBalancedJSON(text) {
   const start = text.indexOf('{');
   if (start === -1) return null;
-
-  let depth = 0;
-  let inString = false;
-  let escape = false;
-
+  let depth = 0, inStr = false, esc = false;
   for (let i = start; i < text.length; i++) {
     const ch = text[i];
-    if (escape) { escape = false; continue; }
-    if (ch === '\\' && inString) { escape = true; continue; }
-    if (ch === '"') { inString = !inString; continue; }
-    if (inString) continue;
+    if (esc) { esc = false; continue; }
+    if (ch === '\\' && inStr) { esc = true; continue; }
+    if (ch === '"') { inStr = !inStr; continue; }
+    if (inStr) continue;
     if (ch === '{') depth++;
-    else if (ch === '}') {
-      depth--;
-      if (depth === 0) return text.slice(start, i + 1);
-    }
+    else if (ch === '}') { depth--; if (depth === 0) return text.slice(start, i + 1); }
   }
   return null;
 }
 
-// Tenta reparar problemas comuns em JSON gerado por LLMs
 function repairJSON(str) {
   return str
-    .replace(/,\s*}/g, '}')           // vírgula antes de }
-    .replace(/,\s*]/g, ']')           // vírgula antes de ]
-    .replace(/(['"])?([a-zA-Z_][a-zA-Z0-9_]*)(['"])?\s*:/g, '"$2":') // chaves sem aspas
-    .replace(/:\s*'([^']*?)'/g, ': "$1"')  // aspas simples em valores
-    .replace(/[\u0000-\u001F\u007F-\u009F]/g, ' ') // caracteres de controle
+    .replace(/,\s*}/g, '}')
+    .replace(/,\s*]/g, ']')
+    .replace(/(['"])?([a-zA-Z_][a-zA-Z0-9_]*)(['"])?\s*:/g, '"$2":')
+    .replace(/:\s*'([^']*?)'/g, ': "$1"')
+    .replace(/[\u0000-\u001F\u007F-\u009F]/g, ' ')
     .trim();
 }
 
@@ -233,10 +190,10 @@ HASHTAGS BASE: ${p.hashtags}
 
 REGRAS CRÍTICAS:
 - Responda APENAS com JSON puro e válido, sem markdown, sem texto antes ou depois
-- Não use aspas simples, use aspas duplas
+- Use aspas duplas em tudo, nunca aspas simples
 - Não deixe vírgulas no final de objetos ou arrays
-- Certifique-se de fechar TODAS as chaves e colchetes corretamente
+- Feche TODAS as chaves e colchetes corretamente
 
-FORMATO EXATO:
-{"versoes":[{"legenda":"legenda completa com emojis e CTA (min 100 palavras)","imgEn":"detailed English image prompt for AI generation","imgPt":"prompt detalhado em português para geração de imagem","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"],"roteiro":"roteiro 30s Reels com cenas numeradas"},{"legenda":"segunda versão diferente da primeira","imgEn":"...","imgPt":"...","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"],"roteiro":"..."},{"legenda":"terceira versão diferente das anteriores","imgEn":"...","imgPt":"...","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"],"roteiro":"..."}]}`;
+FORMATO EXATO (2 versões):
+{"versoes":[{"legenda":"legenda completa com emojis e CTA (min 100 palavras)","imgEn":"detailed English image prompt for AI generation","imgPt":"prompt detalhado em português para geração de imagem","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"],"roteiro":"roteiro 30s Reels com cenas numeradas"},{"legenda":"segunda versão diferente da primeira","imgEn":"...","imgPt":"...","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"],"roteiro":"..."}]}`;
 }
